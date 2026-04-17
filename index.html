@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="日々の支出を簡単に記録・管理できるWebアプリ。カテゴリ別集計で家計の見える化を実現します。">
+  <title>支出管理アプリ | Expense Tracker</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>">
+</head>
+<body>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <div class="app-container">
+
+    <!-- ===== Header ===== -->
+    <header class="app-header">
+      <div class="app-header__logo">💰</div>
+      <h1 class="app-header__title">支出管理</h1>
+      <p class="app-header__subtitle">毎日の支出をスマートに記録・管理</p>
+    </header>
+
+    <!-- ===== Month Navigation ===== -->
+    <nav class="month-nav" aria-label="月の切り替え">
+      <button class="month-nav__btn" id="btn-prev-month" aria-label="前月">◀</button>
+      <span class="month-nav__label" id="month-label">2025年10月</span>
+      <button class="month-nav__btn" id="btn-next-month" aria-label="翌月">▶</button>
+    </nav>
+
+    <!-- ===== Summary Cards ===== -->
+    <section class="summary-cards" aria-label="月間サマリー">
+      <div class="summary-card summary-card--total">
+        <div class="summary-card__label">今月の合計</div>
+        <div class="summary-card__value summary-card__value--total" id="summary-total" data-current-value="0">¥0</div>
+      </div>
+      <div class="summary-card summary-card--count">
+        <div class="summary-card__label">件数</div>
+        <div class="summary-card__value summary-card__value--count" id="summary-count" data-current-value="0">0件</div>
+      </div>
+      <div class="summary-card summary-card--average">
+        <div class="summary-card__label">日平均</div>
+        <div class="summary-card__value summary-card__value--average" id="summary-average" data-current-value="0">¥0</div>
+      </div>
+    </section>
+
+    <!-- ===== Expense Form ===== -->
+    <section class="section">
+      <div class="section__header">
+        <span class="section__icon">✏️</span>
+        <h2 class="section__title">支出を登録</h2>
+      </div>
+      <form class="expense-form" id="expense-form" novalidate>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="input-date">日付</label>
+            <input class="form-input" type="date" id="input-date" name="date" required>
+            <div class="form-error" id="error-date"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-category">カテゴリ</label>
+            <select class="form-select" id="input-category" name="category" required>
+              <!-- populated by JS -->
+            </select>
+            <div class="form-error" id="error-category"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-amount">金額（円）</label>
+            <input class="form-input" type="number" id="input-amount" name="amount" min="1" step="1" placeholder="例: 1200" required>
+            <div class="form-error" id="error-amount"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-memo">メモ</label>
+            <input class="form-input" type="text" id="input-memo" name="memo" placeholder="例: ランチ" maxlength="100">
+            <div class="form-error" id="error-memo"></div>
+          </div>
+          <button class="form-submit" type="submit" id="btn-submit">💾 登録する</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ===== Category Summary ===== -->
+    <section class="section">
+      <div class="section__header">
+        <span class="section__icon">📊</span>
+        <h2 class="section__title">カテゴリ別集計</h2>
+      </div>
+      <div class="category-section">
+        <div class="category-chart-wrapper">
+          <canvas id="pie-chart" width="280" height="280"></canvas>
+          <div class="category-chart-center" id="pie-chart-center">
+            <div class="category-chart-center__label">合計</div>
+            <div class="category-chart-center__value" id="pie-chart-total">¥0</div>
+          </div>
+        </div>
+        <div class="category-list" id="category-list">
+          <!-- rendered by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Expense List ===== -->
+    <section class="section">
+      <div class="section__header">
+        <span class="section__icon">📋</span>
+        <h2 class="section__title">支出一覧</h2>
+      </div>
+      <div class="expense-list" id="expense-list">
+        <!-- rendered by JS -->
+      </div>
+    </section>
+
+    <!-- ===== Footer ===== -->
+    <footer class="app-footer">
+      <p>© 2025 支出管理アプリ — データはブラウザのlocalStorageに保存されます</p>
+    </footer>
+
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
